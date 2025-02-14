@@ -25,9 +25,14 @@ class ClientApp implements Bootable {
 
         //方式二 提交客户端actor用于回调
         system = ActorSystem.create(ClientActor.AkkaSystemName, ConfigFactory.load().getConfig("client"));
-        ActorRef client = system.actorOf(new Props(ClientActor.class), "clientActorName");
+        ActorRef client = system.actorOf(Props.create(ClientActor.class), "clientActorName");
 //        system.actorFor("akka://serName@10.68.14.139:8888/user/serverActorName").tell("hello,3q I'm client ",client);
-        system.actorFor("akka://"+serverName+"@"+ip+":"+port+"/user/"+actorServerName+"").tell(params,client);
+
+
+        // 非tcp协议
+//        system.actorFor("akka://"+serverName+"@"+ip+":"+port+"/user/"+actorServerName+"").tell(params,client);
+        // tcp协议
+        system.actorFor("akka.tcp://"+serverName+"@"+ip+":"+port+"/user/"+actorServerName+"").tell(params,client);
 
     }
 

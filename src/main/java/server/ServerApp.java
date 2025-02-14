@@ -15,7 +15,7 @@ class ServerApp implements Bootable {
 
     ServerApp() {
         system = ActorSystem.create(ServerActor.AkkaSystemName, ConfigFactory.load().getConfig("server"));
-        serverActor = system.actorOf(new Props(ServerActor.class), "serverActorName");
+        serverActor = system.actorOf(Props.create(ServerActor.class), "serverActorName");
         System.out.println("serverActor.path"+serverActor.path());
 
         //发布一个远程对象到远程客户端的机器上
